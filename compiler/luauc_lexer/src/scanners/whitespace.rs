@@ -30,6 +30,7 @@ impl WhitespaceScanner {
 }
 
 impl StrScanner for WhitespaceScanner {
+    #[inline]
     fn chunk_driver(source: u8x64) -> u8x64 {
         splat_matches!(source, b' ' | b'\t' | 0xA..=0xD | 0x85)
             .to_int()
