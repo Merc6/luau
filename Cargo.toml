@@ -19,7 +19,7 @@ rpath = false
 
 [workspace.package]
 edition = "2024"
-license = "BSD 3-clause"
+license = "MIT OR Apache-2.0"
 
 [workspace.dependencies]
 divan = "0.1"
