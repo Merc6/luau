@@ -54,7 +54,7 @@ impl Scanner {
             }
         }
 
-        if !rem.is_empty() {
+        if likely(!rem.is_empty()) {
             let rem_len = rem.len();
             let src = S::chunk_driver(u8x64::load_or_default(rem)).to_array();
             unsafe { core::ptr::copy_nonoverlapping(src.as_ptr(), rem.as_mut_ptr(), rem_len) };
