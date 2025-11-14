@@ -52,29 +52,26 @@ fn lex_identifiers_rand_bytes(bencher: Bencher, size: usize) {
         });
 }
 
-// TODO: fix this when everything is ported to new architecture
-// #[divan::bench(
-//     args = [
-//         1024,
-//         1024 * 10,
-//         1024 * 100,
-//         1024 * 1024,
-//         1024 * 1024 * 10,
-//         1024 * 1024 * 128
-//     ]
-// )]
-// #[expect(clippy::single_call_fn, reason = "benchmark")]
-// fn lex_whitespace_rand_bytes(bencher: Bencher, size: usize) {
-//     let pattern = make_noisy_input(size);
-
-//     bencher
-//         .counter(BytesCount::of_str(&pattern))
-//         .bench_local(|| {
-//             black_box(Scanner::single_pass_next::<scanners::WhitespaceScanner>(
-//                 black_box(&pattern),
-//             ))
-//         });
-// }
+/// benchmark for measuring how fast we can classify whitespace in a random assortment of bytes
+#[divan::bench(
+    args = [
+        1024,
+        1024 * 10,
+        1024 * 100,
+        1024 * 1024,
+        1024 * 1024 * 10,
+        1024 * 1024 * 128
+    ]
+)]
+#[expect(clippy::single_call_fn, reason = "benchmark")]
+fn lex_whitespace_rand_bytes(bencher: Bencher, size: usize) {
+    bencher
+        .with_inputs(|| pseudo_random_input(size))
+        .input_counter(BytesCount::of_str)
+        .bench_local_refs(|source| {
+            Scanner::single_pass_with::<scanners::WhitespaceScanner>(source);
+        });
+}
 
 /// benchmark for measuring how fast we can pull strings out of a random assortment of bytes
 #[divan::bench(

@@ -8,6 +8,7 @@ use core::simd::{
         SimdPartialEq as _,
         SimdPartialOrd as _, //
     },
+    num::SimdInt,
     u8x64,
 };
 
@@ -29,8 +30,9 @@ impl WhitespaceScanner {
 }
 
 impl StrScanner for WhitespaceScanner {
-    #[inline]
-    fn driver(source: u8x64) -> u64 {
-        splat_matches!(source, b' ' | b'\t' | 0xA..=0xD | 0x85).to_bitmask()
+    fn chunk_driver(source: u8x64) -> u8x64 {
+        splat_matches!(source, b' ' | b'\t' | 0xA..=0xD | 0x85)
+            .to_int()
+            .cast()
     }
 }

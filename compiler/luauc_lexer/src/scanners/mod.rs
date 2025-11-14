@@ -2,7 +2,7 @@
 
 mod identifier;
 mod string;
-// mod whitespace;
+mod whitespace;
 
 use core::simd::{
     Mask,
@@ -13,7 +13,7 @@ use core::simd::{
 pub use self::{
     identifier::IdentifierScanner,
     string::StringScanner,
-    // whitespace::WhitespaceScanner, //
+    whitespace::WhitespaceScanner, //
 };
 
 /// scans a 64-byte string slice
